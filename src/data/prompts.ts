@@ -454,14 +454,57 @@ export const PROMPTS: PromptSet = {
   },
 };
 
+const STORAGE_KEY = "closer-shown-prompts";
+
+type ShownMap = Record<string, string[]>;
+
+const keyFor = (mode: Mode, level: Level) => `${mode}:${level}`;
+
+const readShown = (): ShownMap => {
+  if (typeof window === "undefined") return {};
+  try {
+    const raw = window.localStorage.getItem(STORAGE_KEY);
+    return raw ? (JSON.parse(raw) as ShownMap) : {};
+  } catch {
+    return {};
+  }
+};
+
+const writeShown = (map: ShownMap) => {
+  if (typeof window === "undefined") return;
+  try {
+    window.localStorage.setItem(STORAGE_KEY, JSON.stringify(map));
+  } catch {
+    /* ignore quota / privacy errors */
+  }
+};
+
 export function getRandom(mode: Mode, level: Level, exclude?: string): string {
   const pool = PROMPTS[mode][level];
-  let pick = pool[Math.floor(Math.random() * pool.length)];
-  if (exclude && pool.length > 1) {
-    let safety = 0;
-    while (pick === exclude && safety++ < 10) {
-      pick = pool[Math.floor(Math.random() * pool.length)];
-    }
+  const map = readShown();
+  const k = keyFor(mode, level);
+  let shown = map[k] ?? [];
+
+  // Filter pool to unseen prompts (and avoid the immediate previous one if possible).
+  let remaining = pool.filter((p) => !shown.includes(p));
+
+  // Pool exhausted — reset, but keep the last prompt in `shown` so we don't repeat it instantly.
+  if (remaining.length === 0) {
+    shown = exclude ? [exclude] : [];
+    remaining = pool.filter((p) => !shown.includes(p));
+    if (remaining.length === 0) remaining = pool; // pool of 1 edge case
   }
+
+  // Prefer not to repeat `exclude` if alternatives exist.
+  if (exclude && remaining.length > 1) {
+    const filtered = remaining.filter((p) => p !== exclude);
+    if (filtered.length > 0) remaining = filtered;
+  }
+
+  const pick = remaining[Math.floor(Math.random() * remaining.length)];
+
+  map[k] = [...shown, pick];
+  writeShown(map);
+
   return pick;
 }
