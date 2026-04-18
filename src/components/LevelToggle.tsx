@@ -1,10 +1,10 @@
 import { Level } from "@/data/prompts";
 import { cn } from "@/lib/utils";
 
-const levels: { id: Level; label: string; emoji: string }[] = [
-  { id: "sweet", label: "Sweet", emoji: "🌸" },
-  { id: "flirty", label: "Flirty", emoji: "💋" },
-  { id: "spicy", label: "Spicy", emoji: "🔥" },
+const levels: { id: Level; label: string }[] = [
+  { id: "sweet", label: "Sweet" },
+  { id: "flirty", label: "Flirty" },
+  { id: "spicy", label: "Spicy" },
 ];
 
 export const LevelToggle = ({
@@ -21,7 +21,7 @@ export const LevelToggle = ({
           key={l.id}
           onClick={() => onChange(l.id)}
           className={cn(
-            "px-4 py-2 rounded-full text-sm font-medium transition-all duration-300",
+            "px-5 py-2 rounded-full text-sm font-medium tracking-wide transition-all duration-300",
             value === l.id
               ? l.id === "spicy"
                 ? "bg-gradient-spicy text-primary-foreground shadow-soft"
@@ -29,7 +29,6 @@ export const LevelToggle = ({
               : "text-muted-foreground hover:text-foreground"
           )}
         >
-          <span className="mr-1.5">{l.emoji}</span>
           {l.label}
         </button>
       ))}
