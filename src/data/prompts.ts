@@ -1,11 +1,11 @@
 export type Level = "sweet" | "flirty" | "spicy";
 export type Mode = "questions" | "dares" | "wyr" | "activities";
 
-export const MODE_META: Record<Mode, { title: string; subtitle: string; emoji: string }> = {
-  questions: { title: "Deep Questions", subtitle: "Know each other, deeper", emoji: "💬" },
-  dares: { title: "Truth or Dare", subtitle: "Playful little challenges", emoji: "🎭" },
-  wyr: { title: "Would You Rather", subtitle: "Impossible choices, together", emoji: "🤔" },
-  activities: { title: "Intimate Activities", subtitle: "Connect, body & soul", emoji: "🌹" },
+export const MODE_META: Record<Mode, { title: string; subtitle: string }> = {
+  questions: { title: "Deep Questions", subtitle: "Know each other, deeper" },
+  dares: { title: "Truth or Dare", subtitle: "Playful little challenges" },
+  wyr: { title: "Would You Rather", subtitle: "Impossible choices, together" },
+  activities: { title: "Intimate Activities", subtitle: "Connect, body & soul" },
 };
 
 type PromptSet = Record<Mode, Record<Level, string[]>>;
