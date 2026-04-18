@@ -6,52 +6,52 @@
 
 @layer base {
   :root {
-    /* Blush Romance palette */
-    --background: 340 60% 97%;
-    --foreground: 320 30% 18%;
+    /* Cozy Ember — warm candlelit sunset */
+    --background: 20 45% 95%;
+    --foreground: 15 35% 15%;
 
-    --card: 0 0% 100%;
-    --card-foreground: 320 30% 18%;
+    --card: 25 50% 98%;
+    --card-foreground: 15 35% 15%;
 
-    --popover: 0 0% 100%;
-    --popover-foreground: 320 30% 18%;
+    --popover: 25 50% 98%;
+    --popover-foreground: 15 35% 15%;
 
-    --primary: 280 45% 62%;            /* lavender */
-    --primary-foreground: 340 60% 98%;
+    --primary: 12 70% 52%;             /* warm ember */
+    --primary-foreground: 30 50% 98%;
 
-    --secondary: 340 55% 90%;          /* blush */
-    --secondary-foreground: 320 30% 22%;
+    --secondary: 25 65% 88%;           /* peach cream */
+    --secondary-foreground: 15 40% 22%;
 
-    --muted: 330 40% 94%;
-    --muted-foreground: 320 15% 45%;
+    --muted: 22 40% 92%;
+    --muted-foreground: 15 20% 42%;
 
-    --accent: 290 50% 80%;
-    --accent-foreground: 320 30% 18%;
+    --accent: 350 60% 78%;             /* dusty rose */
+    --accent-foreground: 15 40% 18%;
 
-    --destructive: 0 70% 60%;
+    --destructive: 0 70% 55%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 330 40% 88%;
-    --input: 330 40% 90%;
-    --ring: 280 45% 62%;
+    --border: 22 35% 84%;
+    --input: 22 35% 88%;
+    --ring: 12 70% 52%;
 
     --radius: 1.25rem;
 
     /* Level tokens */
-    --sweet: 340 70% 75%;
-    --flirty: 320 65% 65%;
-    --spicy: 350 75% 55%;
+    --sweet: 30 75% 70%;
+    --flirty: 10 75% 60%;
+    --spicy: 350 70% 45%;
 
-    /* Gradients */
-    --gradient-romance: linear-gradient(135deg, hsl(340 70% 92%) 0%, hsl(290 60% 88%) 50%, hsl(270 55% 85%) 100%);
-    --gradient-card: linear-gradient(160deg, hsl(0 0% 100%) 0%, hsl(340 60% 97%) 100%);
-    --gradient-primary: linear-gradient(135deg, hsl(320 65% 70%), hsl(280 55% 65%));
-    --gradient-spicy: linear-gradient(135deg, hsl(350 75% 60%), hsl(320 65% 55%));
+    /* Gradients — cozy candlelit sunset */
+    --gradient-romance: linear-gradient(135deg, hsl(30 75% 88%) 0%, hsl(15 70% 80%) 45%, hsl(350 55% 72%) 100%);
+    --gradient-card: linear-gradient(160deg, hsl(30 60% 98%) 0%, hsl(20 50% 94%) 100%);
+    --gradient-primary: linear-gradient(135deg, hsl(15 75% 60%), hsl(350 65% 55%));
+    --gradient-spicy: linear-gradient(135deg, hsl(355 75% 50%), hsl(330 60% 35%));
 
-    /* Shadows */
-    --shadow-soft: 0 10px 40px -10px hsl(320 50% 60% / 0.25);
-    --shadow-glow: 0 0 60px hsl(290 60% 75% / 0.4);
-    --shadow-card: 0 20px 60px -20px hsl(320 40% 50% / 0.3);
+    /* Shadows — warm amber glow */
+    --shadow-soft: 0 10px 40px -10px hsl(15 60% 45% / 0.3);
+    --shadow-glow: 0 0 60px hsl(20 75% 60% / 0.45);
+    --shadow-card: 0 20px 60px -20px hsl(10 50% 35% / 0.35);
 
     --transition-smooth: cubic-bezier(0.4, 0, 0.2, 1);
 
