@@ -516,14 +516,14 @@ export function getRandom(
 
   // Pool exhausted — reset, but keep the last prompt in `shown` so we don't repeat it instantly.
   if (remaining.length === 0) {
-    shown = exclude ? [exclude] : [];
+    shown = excl ? [excl] : [];
     remaining = pool.filter((p) => !shown.includes(p));
     if (remaining.length === 0) remaining = pool; // pool of 1 edge case
   }
 
-  // Prefer not to repeat `exclude` if alternatives exist.
-  if (exclude && remaining.length > 1) {
-    const filtered = remaining.filter((p) => p !== exclude);
+  // Prefer not to repeat `excl` if alternatives exist.
+  if (excl && remaining.length > 1) {
+    const filtered = remaining.filter((p) => p !== excl);
     if (filtered.length > 0) remaining = filtered;
   }
 
