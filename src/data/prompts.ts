@@ -1,12 +1,21 @@
+import { MODE_META_HE, PROMPTS_HE } from "./prompts.he";
+
 export type Level = "sweet" | "flirty" | "spicy";
 export type Mode = "questions" | "dares" | "wyr" | "activities";
+export type Lang = "en" | "he";
 
-export const MODE_META: Record<Mode, { title: string; subtitle: string }> = {
+export const MODE_META_EN: Record<Mode, { title: string; subtitle: string }> = {
   questions: { title: "Deep Questions", subtitle: "Know each other, deeper" },
   dares: { title: "Truth or Dare", subtitle: "Playful little challenges" },
   wyr: { title: "Would You Rather", subtitle: "Impossible choices, together" },
   activities: { title: "Intimate Activities", subtitle: "Connect, body & soul" },
 };
+
+// Backwards-compat alias
+export const MODE_META = MODE_META_EN;
+
+export const getModeMeta = (mode: Mode, lang: Lang = "en") =>
+  (lang === "he" ? MODE_META_HE : MODE_META_EN)[mode];
 
 type PromptSet = Record<Mode, Record<Level, string[]>>;
 
@@ -458,7 +467,10 @@ const STORAGE_KEY = "closer-shown-prompts";
 
 type ShownMap = Record<string, string[]>;
 
-const keyFor = (mode: Mode, level: Level) => `${mode}:${level}`;
+const keyFor = (mode: Mode, level: Level, lang: Lang = "en") =>
+  `${lang}:${mode}:${level}`;
+
+const POOLS: Record<Lang, PromptSet> = { en: PROMPTS, he: PROMPTS_HE };
 
 const readShown = (): ShownMap => {
   if (typeof window === "undefined") return {};
@@ -479,10 +491,24 @@ const writeShown = (map: ShownMap) => {
   }
 };
 
-export function getRandom(mode: Mode, level: Level, exclude?: string): string {
-  const pool = PROMPTS[mode][level];
+export function getRandom(
+  mode: Mode,
+  level: Level,
+  langOrExclude?: Lang | string,
+  exclude?: string
+): string {
+  // Support legacy signature getRandom(mode, level, exclude)
+  let lang: Lang = "en";
+  let excl: string | undefined;
+  if (langOrExclude === "en" || langOrExclude === "he") {
+    lang = langOrExclude;
+    excl = exclude;
+  } else {
+    excl = langOrExclude;
+  }
+  const pool = POOLS[lang][mode][level];
   const map = readShown();
-  const k = keyFor(mode, level);
+  const k = keyFor(mode, level, lang);
   let shown = map[k] ?? [];
 
   // Filter pool to unseen prompts (and avoid the immediate previous one if possible).
