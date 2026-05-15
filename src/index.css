@@ -88,6 +88,54 @@
   }
 }
 
+/* Level-driven theme shifts: sweet (warm cozy) → flirty (coral pink) → spicy (deep wine) */
+body[data-level="flirty"] {
+  --primary: 350 75% 58%;
+  --primary-foreground: 350 50% 98%;
+  --accent: 340 70% 75%;
+  --ring: 350 75% 58%;
+  --gradient-romance: linear-gradient(135deg, hsl(20 75% 88%) 0%, hsl(345 70% 78%) 45%, hsl(320 60% 70%) 100%);
+  --gradient-primary: linear-gradient(135deg, hsl(345 80% 60%), hsl(320 70% 55%));
+  --shadow-soft: 0 10px 40px -10px hsl(345 70% 50% / 0.35);
+  --shadow-glow: 0 0 60px hsl(340 80% 60% / 0.5);
+}
+body[data-level="spicy"] {
+  --background: 340 25% 10%;
+  --foreground: 350 30% 95%;
+  --card: 340 25% 14%;
+  --card-foreground: 350 30% 95%;
+  --primary: 350 80% 55%;
+  --primary-foreground: 350 30% 98%;
+  --secondary: 340 25% 20%;
+  --secondary-foreground: 350 30% 95%;
+  --muted: 340 20% 18%;
+  --muted-foreground: 340 15% 70%;
+  --accent: 350 60% 35%;
+  --accent-foreground: 350 30% 95%;
+  --border: 340 25% 22%;
+  --input: 340 25% 22%;
+  --ring: 350 80% 55%;
+  --gradient-romance: linear-gradient(135deg, hsl(340 50% 12%) 0%, hsl(355 60% 22%) 45%, hsl(330 55% 18%) 100%);
+  --gradient-card: linear-gradient(160deg, hsl(340 30% 18%) 0%, hsl(350 35% 14%) 100%);
+  --gradient-primary: linear-gradient(135deg, hsl(355 80% 50%), hsl(330 65% 38%));
+  --gradient-spicy: linear-gradient(135deg, hsl(355 85% 55%), hsl(325 70% 30%));
+  --shadow-soft: 0 10px 40px -10px hsl(355 80% 30% / 0.5);
+  --shadow-glow: 0 0 80px hsl(350 85% 50% / 0.55);
+  --shadow-card: 0 20px 60px -20px hsl(350 70% 10% / 0.7);
+}
+body[data-level="spicy"] .bg-white\/60,
+body[data-level="spicy"] .bg-white\/70,
+body[data-level="spicy"] .bg-white\/80,
+body[data-level="spicy"] .bg-white\/50 {
+  background-color: hsl(340 25% 20% / 0.55);
+}
+body[data-level="spicy"] .border-white\/80 {
+  border-color: hsl(350 30% 35% / 0.4);
+}
+
+/* RTL nudges */
+html[dir="rtl"] body { font-family: 'Inter', 'Heebo', 'Assistant', sans-serif; }
+
 @layer base {
   * { @apply border-border; }
   body {
