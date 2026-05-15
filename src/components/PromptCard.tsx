@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
-import { Level, Mode, MODE_META, getRandom } from "@/data/prompts";
+import { Level, Mode, getModeMeta, getRandom } from "@/data/prompts";
+import { useLang } from "@/i18n/LanguageContext";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft, Shuffle } from "lucide-react";
 
@@ -12,22 +13,22 @@ export const PromptCard = ({
   level: Level;
   onBack: () => void;
 }) => {
-  const meta = MODE_META[mode];
-  const [prompt, setPrompt] = useState(() => getRandom(mode, level));
+  const { lang, t } = useLang();
+  const meta = getModeMeta(mode, lang);
+  const [prompt, setPrompt] = useState(() => getRandom(mode, level, lang));
   const [key, setKey] = useState(0);
 
   useEffect(() => {
-    setPrompt(getRandom(mode, level));
+    setPrompt(getRandom(mode, level, lang));
     setKey((k) => k + 1);
-  }, [mode, level]);
+  }, [mode, level, lang]);
 
   const next = () => {
-    setPrompt((p) => getRandom(mode, level, p));
+    setPrompt((p) => getRandom(mode, level, lang, p));
     setKey((k) => k + 1);
   };
 
-  const accent =
-    level === "spicy" ? "bg-gradient-spicy" : "bg-gradient-primary";
+  const accent = level === "spicy" ? "bg-gradient-spicy" : "bg-gradient-primary";
 
   return (
     <div className="w-full max-w-md mx-auto flex flex-col items-center gap-6">
@@ -35,7 +36,7 @@ export const PromptCard = ({
         onClick={onBack}
         className="self-start inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition"
       >
-        <ArrowLeft className="w-4 h-4" /> Back
+        <ArrowLeft className="w-4 h-4" /> {t.back}
       </button>
 
       <div className="text-center">
@@ -51,7 +52,7 @@ export const PromptCard = ({
           {prompt}
         </p>
         <div className="absolute bottom-5 right-6 text-xs uppercase tracking-[0.2em] text-muted-foreground/70">
-          {level}
+          {t.levels[level]}
         </div>
       </div>
 
@@ -61,7 +62,7 @@ export const PromptCard = ({
         className="bg-gradient-primary hover:opacity-90 text-primary-foreground rounded-full px-8 shadow-soft"
       >
         <Shuffle className="w-4 h-4 mr-2" />
-        Next prompt
+        {t.next}
       </Button>
     </div>
   );

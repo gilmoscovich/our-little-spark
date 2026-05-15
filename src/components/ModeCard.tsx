@@ -1,4 +1,5 @@
-import { Mode, MODE_META } from "@/data/prompts";
+import { Mode, getModeMeta } from "@/data/prompts";
+import { useLang } from "@/i18n/LanguageContext";
 
 export const ModeCard = ({
   mode,
@@ -7,7 +8,8 @@ export const ModeCard = ({
   mode: Mode;
   onClick: () => void;
 }) => {
-  const meta = MODE_META[mode];
+  const { lang } = useLang();
+  const meta = getModeMeta(mode, lang);
   return (
     <button
       onClick={onClick}
@@ -19,7 +21,7 @@ export const ModeCard = ({
         <h3 className="font-display text-2xl font-semibold text-foreground mb-1 text-center">
           {meta.title}
         </h3>
-        <p className="text-sm text-muted-foreground">{meta.subtitle}</p>
+        <p className="text-sm text-muted-foreground text-center">{meta.subtitle}</p>
       </div>
     </button>
   );

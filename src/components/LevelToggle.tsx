@@ -1,11 +1,6 @@
 import { Level } from "@/data/prompts";
+import { useLang } from "@/i18n/LanguageContext";
 import { cn } from "@/lib/utils";
-
-const levels: { id: Level; label: string }[] = [
-  { id: "sweet", label: "Sweet" },
-  { id: "flirty", label: "Flirty" },
-  { id: "spicy", label: "Spicy" },
-];
 
 export const LevelToggle = ({
   value,
@@ -14,6 +9,12 @@ export const LevelToggle = ({
   value: Level;
   onChange: (l: Level) => void;
 }) => {
+  const { t } = useLang();
+  const levels: { id: Level; label: string }[] = [
+    { id: "sweet", label: t.levels.sweet },
+    { id: "flirty", label: t.levels.flirty },
+    { id: "spicy", label: t.levels.spicy },
+  ];
   return (
     <div className="inline-flex rounded-full bg-white/60 backdrop-blur-md p-1.5 shadow-soft border border-white/80">
       {levels.map((l) => (
