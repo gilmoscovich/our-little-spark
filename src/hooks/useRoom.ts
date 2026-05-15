@@ -1,6 +1,6 @@
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
-import { Level, Mode, getRandom } from "@/data/prompts";
+import { Lang, Level, Mode, getRandom } from "@/data/prompts";
 
 export type Room = {
   id: string;
@@ -32,10 +32,10 @@ const generateCode = () => {
   ).join("");
 };
 
-export const createRoom = async (mode: Mode, level: Level) => {
+export const createRoom = async (mode: Mode, level: Level, lang: Lang = "en") => {
   const code = generateCode();
   const playerId = getPlayerId();
-  const firstPrompt = getRandom(mode, level);
+  const firstPrompt = getRandom(mode, level, lang);
   const { data, error } = await supabase
     .from("rooms")
     .insert({
@@ -44,8 +44,8 @@ export const createRoom = async (mode: Mode, level: Level) => {
       level,
       player1_id: playerId,
       current_prompt: firstPrompt,
-      current_turn: "player2", // player2 reads/answers first; player1 just shuffled
-      shown_prompts: { [`${mode}:${level}`]: [firstPrompt] },
+      current_turn: "player2",
+      shown_prompts: { [`${lang}:${mode}:${level}`]: [firstPrompt] },
     })
     .select()
     .single();
@@ -125,16 +125,13 @@ export const useRoom = (roomId: string | null) => {
   return room;
 };
 
-export const shuffleRoomPrompt = async (room: Room) => {
-  const k = `${room.mode}:${room.level}`;
+export const shuffleRoomPrompt = async (room: Room, lang: Lang = "en") => {
+  const k = `${lang}:${room.mode}:${room.level}`;
   const shown = room.shown_prompts?.[k] ?? [];
-  // We can't import PROMPTS here cleanly; just delegate to getRandom by passing exclude.
-  // Use shown list to manually pick: re-implement minimal logic via getRandom local fallback.
-  const next = getRandom(room.mode, room.level, room.current_prompt ?? undefined);
+  const next = getRandom(room.mode, room.level, lang, room.current_prompt ?? undefined);
   const newShown = shown.includes(next) ? shown : [...shown, next];
   const myId = getPlayerId();
-  const nextTurn: "player1" | "player2" =
-    myId === room.player1_id ? "player2" : "player1";
+  const nextTurn: "player1" | "player2" = myId === room.player1_id ? "player2" : "player1";
 
   await supabase
     .from("rooms")
@@ -147,13 +144,9 @@ export const shuffleRoomPrompt = async (room: Room) => {
     .eq("id", room.id);
 };
 
-export const updateRoomModeLevel = async (
-  room: Room,
-  mode: Mode,
-  level: Level
-) => {
-  const next = getRandom(mode, level);
-  const k = `${mode}:${level}`;
+export const updateRoomModeLevel = async (room: Room, mode: Mode, level: Level, lang: Lang = "en") => {
+  const next = getRandom(mode, level, lang);
+  const k = `${lang}:${mode}:${level}`;
   const shown = room.shown_prompts?.[k] ?? [];
   await supabase
     .from("rooms")
