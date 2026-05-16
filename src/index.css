@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,500&family=Nunito:wght@300;400;500;600;700&family=Rubik:wght@300;400;500;600;700&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -134,25 +134,33 @@ body[data-level="spicy"] .border-white\/80 {
 }
 
 /* RTL nudges */
-html[dir="rtl"] body { font-family: 'Inter', 'Heebo', 'Assistant', sans-serif; }
+html[dir="rtl"] body,
+html[dir="rtl"] h1,
+html[dir="rtl"] h2,
+html[dir="rtl"] h3,
+html[dir="rtl"] h4 {
+  font-family: 'Rubik', 'Heebo', 'Assistant', sans-serif;
+  letter-spacing: 0;
+}
 
 @layer base {
   * { @apply border-border; }
   body {
     @apply bg-background text-foreground;
-    font-family: 'Inter', sans-serif;
+    font-family: 'Nunito', 'Rubik', sans-serif;
     background-image: var(--gradient-romance);
     background-attachment: fixed;
     min-height: 100vh;
   }
   h1, h2, h3, h4 {
-    font-family: 'Playfair Display', serif;
-    letter-spacing: -0.02em;
+    font-family: 'Fraunces', 'Rubik', serif;
+    letter-spacing: -0.015em;
+    font-weight: 600;
   }
 }
 
 @layer utilities {
-  .font-display { font-family: 'Playfair Display', serif; }
+  .font-display { font-family: 'Fraunces', 'Rubik', serif; }
   .bg-gradient-romance { background-image: var(--gradient-romance); }
   .bg-gradient-card { background-image: var(--gradient-card); }
   .bg-gradient-primary { background-image: var(--gradient-primary); }
