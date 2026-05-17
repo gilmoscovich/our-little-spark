@@ -20,6 +20,8 @@ export const PromptCard = ({
   const { lang, t } = useLang();
   const meta = getModeMeta(mode, lang);
   const [card, setCard] = useState<Card>(() => ({ id: 0, text: getRandom(mode, level, lang) }));
+  const exitDirRef = useRef<1 | -1>(1);
+  const [isExiting, setIsExiting] = useState(false);
 
   const x = useMotionValue(0);
   const rotate = useTransform(x, [-220, 0, 220], [-18, 0, 18]);
@@ -31,9 +33,16 @@ export const PromptCard = ({
     x.set(0);
   }, [mode, level, lang]);
 
-  const advance = (_dir: 1 | -1) => {
+  const advance = (dir: 1 | -1) => {
+    if (isExiting) return;
+    exitDirRef.current = dir;
+    setIsExiting(true);
+  };
+
+  const onExitComplete = () => {
     setCard((c) => ({ id: c.id + 1, text: getRandom(mode, level, lang, c.text) }));
     x.set(0);
+    setIsExiting(false);
   };
 
   const onDragEnd = (_: unknown, info: PanInfo) => {
