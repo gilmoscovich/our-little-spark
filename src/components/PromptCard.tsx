@@ -1,5 +1,5 @@
-import { useEffect, useState } from "react";
-import { motion, useMotionValue, useTransform, PanInfo } from "framer-motion";
+import { useEffect, useRef, useState } from "react";
+import { motion, useMotionValue, useTransform, AnimatePresence, PanInfo } from "framer-motion";
 import { Level, Mode, getModeMeta, getRandom } from "@/data/prompts";
 import { useLang } from "@/i18n/LanguageContext";
 import { ArrowLeft, Heart, X } from "lucide-react";
