@@ -42,6 +42,9 @@ type UI = {
   spicyCancel: string;
   levels: { sweet: string; flirty: string; spicy: string };
   language: string;
+  like: string;
+  skip: string;
+  swipeHint: string;
 };
 
 const STRINGS: Record<Lang, UI> = {
@@ -83,6 +86,9 @@ const STRINGS: Record<Lang, UI> = {
     spicyCancel: "Maybe later",
     levels: { sweet: "Sweet", flirty: "Flirty", spicy: "Spicy" },
     language: "Language",
+    like: "Love it",
+    skip: "Skip",
+    swipeHint: "Swipe right to love, left to skip",
   },
   he: {
     brandTag: "רק לשניים",
@@ -122,6 +128,9 @@ const STRINGS: Record<Lang, UI> = {
     spicyCancel: "אולי בפעם אחרת",
     levels: { sweet: "רומנטי", flirty: "מפלרטט", spicy: "פיקנטי" },
     language: "שפה",
+    like: "אהבתי",
+    skip: "דלגו",
+    swipeHint: "החליקו ימינה לאהבתי, שמאלה לדילוג",
   },
 };
 
