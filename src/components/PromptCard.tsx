@@ -71,31 +71,28 @@ export const PromptCard = ({
           transition={{ type: "spring", stiffness: 260, damping: 28 }}
           className="absolute inset-0 rounded-[2rem] bg-gradient-card shadow-card border border-white/80 overflow-hidden flex items-center justify-center cursor-grab active:cursor-grabbing"
         >
-            className="absolute inset-0 rounded-[2rem] bg-gradient-card shadow-card border border-white/80 overflow-hidden flex items-center justify-center cursor-grab active:cursor-grabbing"
+          <div className={`absolute inset-x-0 top-0 h-1.5 ${accent}`} />
+
+          <motion.div
+            style={{ opacity: likeOpacity }}
+            className="absolute top-6 left-6 px-3 py-1 rounded-full border-2 border-primary text-primary font-display text-sm tracking-widest uppercase rotate-[-12deg] pointer-events-none"
           >
-            <div className={`absolute inset-x-0 top-0 h-1.5 ${accent}`} />
-
-            <motion.div
-              style={{ opacity: likeOpacity }}
-              className="absolute top-6 left-6 px-3 py-1 rounded-full border-2 border-primary text-primary font-display text-sm tracking-widest uppercase rotate-[-12deg] pointer-events-none"
-            >
-              {t.like}
-            </motion.div>
-            <motion.div
-              style={{ opacity: nopeOpacity }}
-              className="absolute top-6 right-6 px-3 py-1 rounded-full border-2 border-muted-foreground text-muted-foreground font-display text-sm tracking-widest uppercase rotate-[12deg] pointer-events-none"
-            >
-              {t.skip}
-            </motion.div>
-
-            <p className="font-display text-2xl md:text-3xl leading-snug text-foreground text-balance text-center px-8 select-none">
-              {card.text}
-            </p>
-            <div className="absolute bottom-5 right-6 text-xs uppercase tracking-[0.2em] text-muted-foreground/70">
-              {t.levels[level]}
-            </div>
+            {t.like}
           </motion.div>
-        </AnimatePresence>
+          <motion.div
+            style={{ opacity: nopeOpacity }}
+            className="absolute top-6 right-6 px-3 py-1 rounded-full border-2 border-muted-foreground text-muted-foreground font-display text-sm tracking-widest uppercase rotate-[12deg] pointer-events-none"
+          >
+            {t.skip}
+          </motion.div>
+
+          <p className="font-display text-2xl md:text-3xl leading-snug text-foreground text-balance text-center px-8 select-none">
+            {card.text}
+          </p>
+          <div className="absolute bottom-5 right-6 text-xs uppercase tracking-[0.2em] text-muted-foreground/70">
+            {t.levels[level]}
+          </div>
+        </motion.div>
       </div>
 
       <div className="flex items-center justify-center gap-8" dir="ltr">
