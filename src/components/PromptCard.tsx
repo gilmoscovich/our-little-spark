@@ -58,23 +58,19 @@ export const PromptCard = ({
       </div>
 
       <div className="relative w-full aspect-[3/4]">
-        <AnimatePresence initial={false} mode="popLayout">
-          <motion.div
-            key={card.id}
-            drag={exitDir === 0 ? "x" : false}
-            dragConstraints={{ left: 0, right: 0, top: 0, bottom: 0 }}
-            dragElastic={0.9}
-            onDragEnd={onDragEnd}
-            style={{ x, rotate }}
-            initial={{ scale: 0.95, opacity: 0, y: 8 }}
-            animate={{ scale: 1, opacity: 1, y: 0 }}
-            exit={{
-              x: exitDir === 1 ? 600 : exitDir === -1 ? -600 : 0,
-              rotate: exitDir * 25,
-              opacity: 0,
-              transition: { duration: 0.22 },
-            }}
-            transition={{ type: "spring", stiffness: 260, damping: 28 }}
+        <motion.div
+          key={card.id}
+          drag="x"
+          dragConstraints={{ left: 0, right: 0, top: 0, bottom: 0 }}
+          dragElastic={1}
+          dragMomentum={false}
+          onDragEnd={onDragEnd}
+          style={{ x, rotate, touchAction: "none" }}
+          initial={{ scale: 0.95, opacity: 0, y: 8 }}
+          animate={{ scale: 1, opacity: 1, y: 0 }}
+          transition={{ type: "spring", stiffness: 260, damping: 28 }}
+          className="absolute inset-0 rounded-[2rem] bg-gradient-card shadow-card border border-white/80 overflow-hidden flex items-center justify-center cursor-grab active:cursor-grabbing"
+        >
             className="absolute inset-0 rounded-[2rem] bg-gradient-card shadow-card border border-white/80 overflow-hidden flex items-center justify-center cursor-grab active:cursor-grabbing"
           >
             <div className={`absolute inset-x-0 top-0 h-1.5 ${accent}`} />
