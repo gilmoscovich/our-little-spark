@@ -128,6 +128,9 @@ const STRINGS: Record<Lang, UI> = {
     spicyCancel: "אולי בפעם אחרת",
     levels: { sweet: "רומנטי", flirty: "מפלרטט", spicy: "פיקנטי" },
     language: "שפה",
+    like: "אהבתי",
+    skip: "דלגו",
+    swipeHint: "החליקו ימינה לאהבתי, שמאלה לדילוג",
   },
 };
 
