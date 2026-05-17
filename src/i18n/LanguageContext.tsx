@@ -42,6 +42,9 @@ type UI = {
   spicyCancel: string;
   levels: { sweet: string; flirty: string; spicy: string };
   language: string;
+  like: string;
+  skip: string;
+  swipeHint: string;
 };
 
 const STRINGS: Record<Lang, UI> = {
