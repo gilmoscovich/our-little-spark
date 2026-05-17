@@ -8,6 +8,11 @@ type Card = { id: number; text: string };
 
 const SWIPE_THRESHOLD = 110;
 
+const createCard = (mode: Mode, level: Level, lang: "en" | "he", previous?: string): Card => ({
+  id: Date.now(),
+  text: getRandom(mode, level, lang, previous),
+});
+
 export const PromptCard = ({
   mode,
   level,
@@ -19,8 +24,9 @@ export const PromptCard = ({
 }) => {
   const { lang, t } = useLang();
   const meta = getModeMeta(mode, lang);
-  const [card, setCard] = useState<Card>(() => ({ id: 0, text: getRandom(mode, level, lang) }));
+  const [card, setCard] = useState<Card>(() => createCard(mode, level, lang));
   const exitDirRef = useRef<1 | -1>(1);
+  const previousSettingsRef = useRef({ mode, level, lang });
   const [isExiting, setIsExiting] = useState(false);
 
   const x = useMotionValue(0);
@@ -29,7 +35,16 @@ export const PromptCard = ({
   const nopeOpacity = useTransform(x, [-120, -20], [1, 0]);
 
   useEffect(() => {
-    setCard({ id: Date.now(), text: getRandom(mode, level, lang) });
+    const previousSettings = previousSettingsRef.current;
+    if (
+      previousSettings.mode !== mode ||
+      previousSettings.level !== level ||
+      previousSettings.lang !== lang
+    ) {
+      previousSettingsRef.current = { mode, level, lang };
+      setCard(createCard(mode, level, lang));
+      setIsExiting(false);
+    }
     x.set(0);
   }, [mode, level, lang]);
 
@@ -40,7 +55,7 @@ export const PromptCard = ({
   };
 
   const onExitComplete = () => {
-    setCard((c) => ({ id: c.id + 1, text: getRandom(mode, level, lang, c.text) }));
+    setCard((c) => createCard(mode, level, lang, c.text));
     x.set(0);
     setIsExiting(false);
   };
