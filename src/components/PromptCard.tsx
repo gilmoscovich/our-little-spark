@@ -20,29 +20,26 @@ export const PromptCard = ({
   const { lang, t } = useLang();
   const meta = getModeMeta(mode, lang);
   const [card, setCard] = useState<Card>(() => ({ id: 0, text: getRandom(mode, level, lang) }));
-  const [exitDir, setExitDir] = useState<1 | -1 | 0>(0);
-
-  useEffect(() => {
-    setCard({ id: Date.now(), text: getRandom(mode, level, lang) });
-    setExitDir(0);
-  }, [mode, level, lang]);
-
-  const advance = (dir: 1 | -1) => {
-    setExitDir(dir);
-    setTimeout(() => {
-      setCard((c) => ({ id: c.id + 1, text: getRandom(mode, level, lang, c.text) }));
-      setExitDir(0);
-    }, 220);
-  };
 
   const x = useMotionValue(0);
   const rotate = useTransform(x, [-220, 0, 220], [-18, 0, 18]);
   const likeOpacity = useTransform(x, [20, 120], [0, 1]);
   const nopeOpacity = useTransform(x, [-120, -20], [1, 0]);
 
+  useEffect(() => {
+    setCard({ id: Date.now(), text: getRandom(mode, level, lang) });
+    x.set(0);
+  }, [mode, level, lang]);
+
+  const advance = (_dir: 1 | -1) => {
+    setCard((c) => ({ id: c.id + 1, text: getRandom(mode, level, lang, c.text) }));
+    x.set(0);
+  };
+
   const onDragEnd = (_: unknown, info: PanInfo) => {
     if (info.offset.x > SWIPE_THRESHOLD) advance(1);
     else if (info.offset.x < -SWIPE_THRESHOLD) advance(-1);
+    else x.set(0);
   };
 
   const accent = level === "spicy" ? "bg-gradient-spicy" : "bg-gradient-primary";
