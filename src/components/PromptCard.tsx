@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { motion, useMotionValue, useTransform, AnimatePresence, PanInfo } from "framer-motion";
+import { animate, motion, useMotionValue, useTransform, PanInfo } from "framer-motion";
 import { Level, Mode, getModeMeta, getRandom } from "@/data/prompts";
 import { useLang } from "@/i18n/LanguageContext";
 import { ArrowLeft, Heart, X } from "lucide-react";
@@ -20,8 +20,9 @@ export const PromptCard = ({
   const { lang, t } = useLang();
   const meta = getModeMeta(mode, lang);
   const [card, setCard] = useState<Card>(() => ({ id: 0, text: getRandom(mode, level, lang) }));
-  const exitDirRef = useRef<1 | -1>(1);
-  const [isExiting, setIsExiting] = useState(false);
+  const swipeLockedRef = useRef(false);
+  const swipeAnimationRef = useRef<{ stop: () => void } | null>(null);
+  const [isSwiping, setIsSwiping] = useState(false);
 
   const x = useMotionValue(0);
   const rotate = useTransform(x, [-220, 0, 220], [-18, 0, 18]);
@@ -29,26 +30,36 @@ export const PromptCard = ({
   const nopeOpacity = useTransform(x, [-120, -20], [1, 0]);
 
   useEffect(() => {
+    swipeAnimationRef.current?.stop();
+    swipeLockedRef.current = false;
+    setIsSwiping(false);
     setCard({ id: Date.now(), text: getRandom(mode, level, lang) });
     x.set(0);
   }, [mode, level, lang]);
 
   const advance = (dir: 1 | -1) => {
-    if (isExiting) return;
-    exitDirRef.current = dir;
-    setIsExiting(true);
-  };
+    if (swipeLockedRef.current) return;
+    swipeLockedRef.current = true;
+    setIsSwiping(true);
 
-  const onExitComplete = () => {
-    setCard((c) => ({ id: c.id + 1, text: getRandom(mode, level, lang, c.text) }));
-    x.set(0);
-    setIsExiting(false);
+    const offscreenX = dir * (Math.max(window.innerWidth, 420) + 360);
+    swipeAnimationRef.current?.stop();
+    swipeAnimationRef.current = animate(x, offscreenX, {
+      duration: 0.34,
+      ease: [0.22, 1, 0.36, 1],
+      onComplete: () => {
+        setCard((c) => ({ id: c.id + 1, text: getRandom(mode, level, lang, c.text) }));
+        x.set(0);
+        swipeLockedRef.current = false;
+        setIsSwiping(false);
+      },
+    });
   };
 
   const onDragEnd = (_: unknown, info: PanInfo) => {
     if (info.offset.x > SWIPE_THRESHOLD) advance(1);
     else if (info.offset.x < -SWIPE_THRESHOLD) advance(-1);
-    else x.set(0);
+    else animate(x, 0, { type: "spring", stiffness: 520, damping: 34 });
   };
 
   const accent = level === "spicy" ? "bg-gradient-spicy" : "bg-gradient-primary";
