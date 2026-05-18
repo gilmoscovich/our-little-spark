@@ -116,7 +116,7 @@ export const PromptCard = ({
           initial={{ scale: 0.95, opacity: 0, y: 12 }}
           animate={{ scale: 1, opacity: 1, y: 0 }}
           transition={{ type: "spring", stiffness: 260, damping: 28 }}
-          className="absolute inset-0 rounded-[2rem] bg-gradient-card shadow-card border border-white/80 overflow-hidden flex items-center justify-center cursor-grab active:cursor-grabbing"
+          className="absolute inset-0 z-10 rounded-[2rem] bg-gradient-card shadow-card border border-white/80 overflow-hidden flex items-center justify-center cursor-grab active:cursor-grabbing"
         >
           <div className={`absolute inset-x-0 top-0 h-1.5 ${accent}`} />
 
