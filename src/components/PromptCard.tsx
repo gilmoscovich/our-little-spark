@@ -81,6 +81,30 @@ export const PromptCard = ({
         {/* Peek card underneath */}
         <div className="absolute inset-0 rounded-[2rem] bg-gradient-card shadow-card border border-white/80 scale-95 opacity-70" />
 
+        {exitingCard && (
+          <motion.div
+            key={`exit-${exitingCard.id}`}
+            initial={{ x: exitingCard.startX, rotate: exitingCard.dir * 10, opacity: 1, scale: 1 }}
+            animate={{
+              x: offscreenX(exitingCard.dir),
+              rotate: exitingCard.dir * 30,
+              opacity: 0,
+              scale: 0.96,
+            }}
+            transition={{ duration: 0.36, ease: [0.22, 1, 0.36, 1] }}
+            onAnimationComplete={finishSwipe}
+            className="absolute inset-0 z-20 rounded-[2rem] bg-gradient-card shadow-card border border-white/80 overflow-hidden flex items-center justify-center pointer-events-none"
+          >
+            <div className={`absolute inset-x-0 top-0 h-1.5 ${accent}`} />
+            <p className="font-display text-2xl md:text-3xl leading-snug text-foreground text-balance text-center px-8 select-none">
+              {exitingCard.text}
+            </p>
+            <div className="absolute bottom-5 right-6 text-xs uppercase tracking-[0.2em] text-muted-foreground/70">
+              {t.levels[level]}
+            </div>
+          </motion.div>
+        )}
+
         <motion.div
           key={card.id}
           drag={isSwiping ? false : "x"}
